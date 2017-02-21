@@ -9,13 +9,13 @@ then
 		exit 1
 	fi
 	echo "Starting download"
-	aws s3 sync --quiet "${S3_URL}" /data
+	aws s3 sync --quiet "s3://${S3_URL}" /data
 	touch /data/.completed
 	echo "Download completed"
 	while true
 	do
 		sleep ${INTERVAL:-60}
-		if aws s3 sync --quiet --exclude ".completed" /data "${S3_URL}" 
+		if aws s3 sync --quiet --exclude ".completed" /data "s3://${S3_URL}" 
 		then
 			echo "Upload completed"
 		else
